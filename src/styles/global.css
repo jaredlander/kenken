@@ -9,7 +9,7 @@
   --selected: #fde68a;
   --highlight: #fef3c7;
   --given: #4b5563;
-  --note: #6b7280;
+  --note: #2563eb;
   --mistake: #fecaca;
   --button-bg: #f3f4f6;
   --button-fg: #111418;
@@ -29,7 +29,7 @@
   --selected: #92400e;
   --highlight: #78350f;
   --given: #d1d5db;
-  --note: #9ca3af;
+  --note: #93c5fd;
   --mistake: #7f1d1d;
   --button-bg: #1f2937;
   --button-fg: #f3f4f6;
@@ -240,9 +240,8 @@ button[disabled] {
   grid-template-rows: repeat(3, 1fr);
   gap: 0;
   font-size: calc(var(--cell-size) * 0.16);
-  font-weight: 400;
+  font-weight: 600;
   color: var(--note);
-  opacity: 0.75;
 }
 
 .notes-grid > span {
