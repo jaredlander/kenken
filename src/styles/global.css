@@ -1,0 +1,344 @@
+:root {
+  --bg: #ffffff;
+  --fg: #111418;
+  --muted: #6b7280;
+  --cell-bg: #ffffff;
+  --cell-fg: #111418;
+  --cell-border: #d1d5db;
+  --cage-border: #111418;
+  --selected: #fde68a;
+  --highlight: #fef3c7;
+  --given: #4b5563;
+  --note: #6b7280;
+  --mistake: #fecaca;
+  --button-bg: #f3f4f6;
+  --button-fg: #111418;
+  --button-active: #e5e7eb;
+  --accent: #2563eb;
+  --win: #16a34a;
+}
+
+[data-theme="dark"] {
+  --bg: #111418;
+  --fg: #f3f4f6;
+  --muted: #9ca3af;
+  --cell-bg: #1f2937;
+  --cell-fg: #f3f4f6;
+  --cell-border: #374151;
+  --cage-border: #f3f4f6;
+  --selected: #92400e;
+  --highlight: #78350f;
+  --given: #d1d5db;
+  --note: #9ca3af;
+  --mistake: #7f1d1d;
+  --button-bg: #1f2937;
+  --button-fg: #f3f4f6;
+  --button-active: #374151;
+  --accent: #60a5fa;
+  --win: #4ade80;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  overflow: hidden;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: var(--button-bg);
+  border: 1px solid var(--cell-border);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  min-height: 44px;
+  min-width: 44px;
+  touch-action: manipulation;
+}
+
+button:active {
+  background: var(--button-active);
+}
+
+button[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0.5rem;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem 0.5rem;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.topbar .right {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.menu h2 {
+  margin: 0.5rem 0 0;
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+.menu .row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.menu .row button {
+  flex: 1 1 calc(50% - 0.25rem);
+}
+
+.board-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0;
+}
+
+.board {
+  --cells: 4;
+  --cell-size: min(calc((100vw - 1rem) / var(--cells)), calc(70vh / var(--cells)), 80px);
+  display: grid;
+  grid-template-columns: repeat(var(--cells), var(--cell-size));
+  grid-template-rows: repeat(var(--cells), var(--cell-size));
+  border: 2px solid var(--cage-border);
+  background: var(--cell-bg);
+}
+
+.cell {
+  position: relative;
+  width: var(--cell-size);
+  height: var(--cell-size);
+  background: var(--cell-bg);
+  color: var(--cell-fg);
+  border-right: 1px solid var(--cell-border);
+  border-bottom: 1px solid var(--cell-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--cell-size) * 0.5);
+  font-weight: 600;
+  user-select: none;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.cell.cage-right { border-right: 2px solid var(--cage-border); }
+.cell.cage-bottom { border-bottom: 2px solid var(--cage-border); }
+.cell.cage-left { border-left: 2px solid var(--cage-border); }
+.cell.cage-top { border-top: 2px solid var(--cage-border); }
+
+.cell.selected { background: var(--selected); }
+.cell.highlighted { background: var(--highlight); }
+.cell.mistake { background: var(--mistake); }
+.cell.given { color: var(--given); font-style: italic; }
+
+.cage-label {
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  font-size: calc(var(--cell-size) * 0.18);
+  font-weight: 500;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.notes-grid {
+  position: absolute;
+  inset: 4px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 0;
+  font-size: calc(var(--cell-size) * 0.18);
+  font-weight: 400;
+  color: var(--note);
+}
+
+.notes-grid > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.4rem;
+  padding: 0.5rem;
+}
+
+.keypad button {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.keypad button.active {
+  background: var(--accent);
+  color: white;
+}
+
+.timer {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  padding: 1rem;
+}
+
+.modal {
+  background: var(--bg);
+  color: var(--fg);
+  border-radius: 16px;
+  padding: 1.5rem;
+  max-width: 360px;
+  width: 100%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.modal h2 {
+  margin: 0 0 0.5rem;
+  color: var(--win);
+}
+
+.modal .badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+  margin: 0.75rem 0;
+}
+
+.modal .badge {
+  background: var(--button-bg);
+  border-radius: 999px;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+.modal .actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.modal .actions button {
+  flex: 1;
+}
+
+@keyframes win-flash-anim {
+  0% { background: var(--cell-bg); }
+  50% { background: var(--win); }
+  100% { background: var(--cell-bg); }
+}
+
+.win-flash .cell:not(.given) {
+  animation: win-flash-anim 0.6s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .win-flash .cell:not(.given) {
+    animation: none;
+    background: var(--win);
+    transition: background 0.4s ease;
+  }
+}
+
+.stats {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.stats-card {
+  background: var(--button-bg);
+  border-radius: 12px;
+  padding: 0.75rem;
+}
+
+.stats-card .label {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.stats-card .value {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
