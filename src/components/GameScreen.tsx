@@ -130,10 +130,21 @@ export function GameScreen(props: GameScreenProps) {
       <Controls
         canUndo={state.past.length > 0}
         canRedo={state.future.length > 0}
+        canReset={
+          state.past.length > 0 ||
+          state.future.length > 0 ||
+          state.hintsUsed > 0 ||
+          state.status === "won"
+        }
         onUndo={() => dispatch({ type: "UNDO" })}
         onRedo={() => dispatch({ type: "REDO" })}
         onCheck={() => dispatch({ type: "FLAG_MISTAKES" })}
         onReveal={() => dispatch({ type: "REVEAL_HINT" })}
+        onReset={() => {
+          recordedRef.current = false;
+          setWinInfo(null);
+          dispatch({ type: "RESET" });
+        }}
       />
 
       {state.status === "won" && winInfo && (
