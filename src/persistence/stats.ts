@@ -27,6 +27,11 @@ export function loadStats(size: Size): Stats {
   return safeGet<Stats>(statsKey(size)) ?? emptyStats();
 }
 
+export function loadDailyCompleted(dateKey: string): Size[] {
+  const map = safeGet<Record<string, Size[]>>(dailyCompletedKey) ?? {};
+  return map[dateKey] ?? [];
+}
+
 export function saveStats(size: Size, stats: Stats): void {
   safeSet(statsKey(size), stats);
 }

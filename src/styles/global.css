@@ -137,10 +137,48 @@ button[disabled] {
   flex: 1 1 calc(50% - 0.25rem);
 }
 
+.board-stack {
+  position: relative;
+}
+
 .board-wrap {
   display: flex;
   justify-content: center;
   padding: 0.5rem 0;
+}
+
+.paused-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+.paused-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.paused-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.paused-content button {
+  font-size: 1.1rem;
+  padding: 0.75rem 2rem;
+  background: var(--accent);
+  color: white;
+  border: none;
 }
 
 .board {

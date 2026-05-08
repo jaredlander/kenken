@@ -88,13 +88,32 @@ export function GameScreen(props: GameScreenProps) {
         <h1>{headerTitle}</h1>
         <div className="right">
           <Timer ms={state.elapsedMs} paused={state.status === "paused"} />
+          <button
+            onClick={() =>
+              dispatch({ type: state.status === "paused" ? "RESUME" : "PAUSE" })
+            }
+            aria-label={state.status === "paused" ? "Resume" : "Pause"}
+            disabled={state.status === "won"}
+          >
+            {state.status === "paused" ? "▶" : "⏸"}
+          </button>
           <button onClick={toggle} aria-label="Toggle theme">
             {theme === "dark" ? "☀" : "☾"}
           </button>
         </div>
       </div>
 
-      <Board state={state} onSelect={(i) => dispatch({ type: "SELECT", index: i })} />
+      <div className="board-stack">
+        <Board state={state} onSelect={(i) => dispatch({ type: "SELECT", index: i })} />
+        {state.status === "paused" && (
+          <div className="paused-overlay" role="dialog" aria-label="Paused">
+            <div className="paused-content">
+              <div className="paused-title">Paused</div>
+              <button onClick={() => dispatch({ type: "RESUME" })}>Resume</button>
+            </div>
+          </div>
+        )}
+      </div>
 
       <Keypad
         size={state.puzzle.size}
