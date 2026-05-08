@@ -4,6 +4,7 @@ import type { Difficulty, Mode, Size } from "../game/types";
 import { useTheme } from "../theme/ThemeProvider";
 import { Board } from "./Board";
 import { Controls } from "./Controls";
+import { HelpModal } from "./HelpModal";
 import { Keypad } from "./Keypad";
 import { Timer } from "./Timer";
 import { WinModal } from "./WinModal";
@@ -24,6 +25,7 @@ export function GameScreen(props: GameScreenProps) {
   const [winInfo, setWinInfo] = useState<{ newBest: boolean; streakIncremented: boolean } | null>(
     null,
   );
+  const [helpOpen, setHelpOpen] = useState(false);
   const recordedRef = useRef(false);
 
   useEffect(() => {
@@ -43,6 +45,15 @@ export function GameScreen(props: GameScreenProps) {
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
+      if (e.key === "?" || (e.key === "/" && e.shiftKey)) {
+        e.preventDefault();
+        setHelpOpen((v) => !v);
+        return;
+      }
+      if (helpOpen && e.key === "Escape") {
+        setHelpOpen(false);
+        return;
+      }
       if (state.status !== "playing") return;
       if (e.key >= "1" && e.key <= "9") {
         const v = Number(e.key);
@@ -73,7 +84,7 @@ export function GameScreen(props: GameScreenProps) {
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [state, dispatch]);
+  }, [state, dispatch, helpOpen]);
 
   const headerTitle = useMemo(() => {
     const s = state.puzzle.size;
@@ -96,6 +107,14 @@ export function GameScreen(props: GameScreenProps) {
             disabled={state.status === "won"}
           >
             {state.status === "paused" ? "▶" : "⏸"}
+          </button>
+          <button
+            onClick={() => setHelpOpen(true)}
+            aria-label="Help"
+            title="Help (?)"
+            className="help-btn"
+          >
+            ?
           </button>
           <button onClick={toggle} aria-label="Toggle theme">
             {theme === "dark" ? "☀" : "☾"}
@@ -146,6 +165,8 @@ export function GameScreen(props: GameScreenProps) {
           dispatch({ type: "RESET" });
         }}
       />
+
+      {helpOpen && <HelpModal onClose={() => setHelpOpen(false)} />}
 
       {state.status === "won" && winInfo && (
         <WinModal

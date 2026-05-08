@@ -22,10 +22,17 @@ export function Keypad({ size, notesMode, onDigit, onClear, onToggleNotes }: Key
         className={notesMode ? "active" : undefined}
         onClick={onToggleNotes}
         aria-pressed={notesMode}
+        aria-label="Toggle notes mode (N)"
+        title="Toggle notes mode (N)"
       >
         ✎
       </button>
-      <button type="button" onClick={onClear} aria-label="Clear cell">
+      <button
+        type="button"
+        onClick={onClear}
+        aria-label="Clear cell (Backspace)"
+        title="Clear cell (Backspace)"
+      >
         ⌫
       </button>
     </div>
