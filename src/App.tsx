@@ -38,8 +38,10 @@ export function App() {
   if (view.kind === "stats") {
     return <StatsScreen onBack={() => setView({ kind: "menu" })} />;
   }
+  const gameKey = `${view.mode}-${view.size}-${view.difficulty ?? "auto"}-${view.unlimitedSalt ?? "daily"}`;
   return (
     <GameScreen
+      key={gameKey}
       mode={view.mode}
       size={view.size}
       difficulty={view.difficulty}
