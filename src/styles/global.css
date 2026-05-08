@@ -385,6 +385,17 @@ button[disabled] {
   font-size: 0.85rem;
 }
 
+.wrong-banner {
+  margin: 0.25rem 0.5rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--mistake);
+  color: var(--fg);
+  border-radius: 8px;
+  font-weight: 600;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
 .help-btn {
   font-weight: 700;
   background: var(--accent);

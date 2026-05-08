@@ -67,6 +67,9 @@ function maybeWin(state: GameState): GameState {
   if (isComplete(state.cells, state.puzzle.cages, state.puzzle.size)) {
     return { ...state, status: "won" };
   }
+  if (state.cells.every((c) => c.value !== null)) {
+    return { ...state, mistakeFlags: findMistakes(state.cells, state.puzzle.solution) };
+  }
   return state;
 }
 

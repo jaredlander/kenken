@@ -86,6 +86,11 @@ export function GameScreen(props: GameScreenProps) {
     return () => window.removeEventListener("keydown", onKey);
   }, [state, dispatch, helpOpen]);
 
+  const filledButWrong = useMemo(
+    () => state.status === "playing" && state.cells.every((c) => c.value !== null),
+    [state.status, state.cells],
+  );
+
   const headerTitle = useMemo(() => {
     const s = state.puzzle.size;
     if (state.mode === "daily") return `${s}×${s} • Daily`;
@@ -133,6 +138,12 @@ export function GameScreen(props: GameScreenProps) {
           </div>
         )}
       </div>
+
+      {filledButWrong && (
+        <div className="wrong-banner" role="status" aria-live="polite">
+          Not quite — the highlighted cells are wrong.
+        </div>
+      )}
 
       <Keypad
         size={state.puzzle.size}
